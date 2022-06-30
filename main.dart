@@ -7,6 +7,13 @@ void listaProdutos(List<String> produtos, qtd) {
   }
 }
 
+void listaProdutosCValor(List<String> produtos, List<double> valores, qtd){
+  print("\nProdutos disponíveis:");
+  for (var i = 0; i < 5; i++) {
+    print('${(i + 1)} - ${produtos[i]} - ${valores[i]}');
+  }
+}
+
 void cadastraValor(List<double> valores, List<String> produtos, qtd) {
   print("Cadastro de Preços:\n");
   for (var x = 0; x < qtd; x++) {
@@ -24,7 +31,7 @@ void efetuarCompra(List<double> valores, List<String> produtos, qtd) {
 
   while (opc != 999) {
     print("Selecione o produto que deseja comprar:\n");
-    listaProdutos(produtos, qtd);
+    listaProdutosCValor(produtos, valores, qtd);
 
     opc = int.parse(stdin.readLineSync()!);
     print(opc);
@@ -43,10 +50,6 @@ void efetuarCompra(List<double> valores, List<String> produtos, qtd) {
   }
 
   print('Sua compra deu um total de R${compra}');
-
-  // for (var z = 0; z < 5; z++) {
-  //   print('${produtos[z]} - ${valores[z]}');
-  // }
 }
 
 void main() {
