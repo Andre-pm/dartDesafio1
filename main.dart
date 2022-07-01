@@ -1,43 +1,41 @@
 import 'dart:io';
 
-void listaProdutos(List<String> produtos, qtd) {
+class Produtos {
+  String? nome;
+  double? preco;
+
+  Produtos({this.nome, this.preco});
+}
+
+void listaProdutos(List<Produtos> produtos, qtd) {
   print("\nProdutos disponíveis:");
   for (var i = 0; i < qtd; i++) {
-    print('${(i + 1)} - ${produtos[i]}');
+    print(
+        'ID: ${(i + 1)} - Nome: ${produtos[i].nome} - Valor ${produtos[i].preco}');
   }
 }
 
-void listaProdutosCValor(List<String> produtos, List<double> valores, qtd){
-  print("\nProdutos disponíveis:");
-  for (var i = 0; i < 5; i++) {
-    print('${(i + 1)} - ${produtos[i]} - ${valores[i]}');
-  }
-}
-
-void cadastraValor(List<double> valores, List<String> produtos, qtd) {
+void cadastraValor(List<Produtos> produtos, qtd) {
   print("Cadastro de Preços:\n");
   for (var x = 0; x < qtd; x++) {
-    print('Selecione o valor do produto ${produtos[x]}:\n');
+    print('Selecione o valor do produto ${produtos[x].nome}:\n');
     double? valor = double.parse(stdin.readLineSync()!);
-    valores.insert(x, valor);
+    produtos[x].preco = valor;
   }
 }
 
-void efetuarCompra(List<double> valores, List<String> produtos, qtd) {
+void efetuarCompra(List<Produtos> produto, qtd) {
   int opc = 1;
-  int count = 0;
   double compra = 0;
-  List<String> historico = [];
 
   while (opc != 999) {
     print("Selecione o produto que deseja comprar:\n");
-    listaProdutosCValor(produtos, valores, qtd);
+    listaProdutos(produto, qtd);
 
     opc = int.parse(stdin.readLineSync()!);
     print(opc);
-
-    compra = valores[opc] + compra;
-    historico.insert(count, produtos[opc]);
+    opc -= 1;
+    compra = (produto[opc].preco! + compra);
 
     print("Adicionar mais algum produto?\n1-Sim\n2-Não");
     opc = int.parse(stdin.readLineSync()!);
@@ -53,16 +51,15 @@ void efetuarCompra(List<double> valores, List<String> produtos, qtd) {
 }
 
 void main() {
-  int qtd = 5;
-  List<String> produtos = [
-    "Livro",
-    "Caneta",
-    "Caderno",
-    "Lápis",
-    "Borracha",
+  List<Produtos> produto = [
+    Produtos(nome: 'Livro', preco: 0),
+    Produtos(nome: 'Caneta', preco: 0),
+    Produtos(nome: 'Caderno', preco: 0),
+    Produtos(nome: 'Lápis', preco: 0),
+    Produtos(nome: 'Borracha', preco: 0),
   ];
-  List<double> valores = [5];
 
+  int qtd = 5;
   int opc = 999;
 
   while (opc != 0) {
@@ -76,15 +73,15 @@ void main() {
         break;
 
       case 1:
-        listaProdutos(produtos, qtd);
+        listaProdutos(produto, qtd);
         break;
 
       case 2:
-        cadastraValor(valores, produtos, qtd);
+        cadastraValor(produto, qtd);
         break;
 
       case 3:
-        efetuarCompra(valores, produtos, qtd);
+        efetuarCompra(produto, qtd);
         break;
 
       default:
